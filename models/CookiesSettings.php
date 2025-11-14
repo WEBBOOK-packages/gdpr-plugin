@@ -1,15 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace WebBook\GDPR\Models;
 
-use Model;
-use App;
-use Log;
-use Flash;
-use System\Classes\PluginManager;
-
-class CookiesSettings extends Model {
-
+class CookiesSettings extends \Model
+{
     public $implement = [
         'System.Behaviors.SettingsModel',
         '@RainLab.Translate.Behaviors.TranslatableModel',
@@ -27,7 +23,7 @@ class CookiesSettings extends Model {
 
     protected $jsonable = [
         'cookies',
-        'cookies_bar_buttons'
+        'cookies_bar_buttons',
     ];
 
     public $requiredPermissions = ['webbook.gdpr.access_cookies_settings'];
@@ -40,46 +36,42 @@ class CookiesSettings extends Model {
         'set_cookies_lifetime_days' => 'numeric',
     ];
 
-    static function getSGCookies($sgCookiesPrefix = 'sg-cookies') {
-
+    public static function getSGCookies($sgCookiesPrefix = 'sg-cookies')
+    {
         $sgCookiesPrefix = CookiesSettings::getSGCookiesLocalePrefix($sgCookiesPrefix);
 
         $sgCookies = [];
 
-        $sgCookies['consent'] = !empty($_COOKIE[($sgCookiesPrefix . '-consent')]);
+        $sgCookies['consent'] = ! empty($_COOKIE[$sgCookiesPrefix.'-state']);
 
         foreach (CookiesSettings::get('cookies', []) as $cookie) {
-
             // REQUIRED are always ON
-            if (!empty($cookie['required'])) {
+            if (! empty($cookie['required'])) {
                 $sgCookies[$cookie['slug']] = 1;
                 continue;
             }
 
             // DEFAULT ENABLED cookies are ON only when no general consent or when explicitly allowed
-            if (!empty($cookie['default_enabled']) and empty($_COOKIE[($sgCookiesPrefix . '-consent')])) {
+            if (! empty($cookie['default_enabled']) and empty($_COOKIE[$sgCookiesPrefix.'-state'])) {
                 $sgCookies[$cookie['slug']] = 1;
                 continue;
             }
 
             // ALL OTHER by its consent state
-            if (!empty($_COOKIE[($sgCookiesPrefix . '-' . $cookie['slug'])])) {
+            if (! empty($_COOKIE[$sgCookiesPrefix.'-'.$cookie['slug']])) {
                 $sgCookies[$cookie['slug']] = 1;
             }
         }
 
         return $sgCookies;
-
     }
 
-    static function getSGCookiesLocalePrefix($sgCookiesPrefix = '') {
-
-        if(CookiesSettings::get('set_cookies_with_locale', false))
-        {
-            $sgCookiesPrefix = $sgCookiesPrefix . '-' . App::getLocale();
+    public static function getSGCookiesLocalePrefix($sgCookiesPrefix = '')
+    {
+        if (CookiesSettings::get('set_cookies_with_locale', false)) {
+            $sgCookiesPrefix = $sgCookiesPrefix.'-'.\App::getLocale();
         }
 
         return $sgCookiesPrefix;
-
     }
 }

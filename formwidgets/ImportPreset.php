@@ -1,119 +1,87 @@
 <?php
 
+declare(strict_types=1);
+
 namespace WebBook\GDPR\FormWidgets;
 
-use WebBook\GDPR\Models\CookiesSettings;
 use Backend\Classes\FormWidgetBase;
 use October\Rain\Parse\Yaml;
-use Config;
-use Flash;
-use Log;
-use AjaxException;
+use WebBook\GDPR\Models\CookiesSettings;
 
-class ImportPreset extends FormWidgetBase {
-
+class ImportPreset extends FormWidgetBase
+{
     public $label = '';
     public $description = '';
 
     /**
-    * @var string A unique alias to identify this widget.
-    */
+     * @var string a unique alias to identify this widget
+     */
     protected $defaultAlias = 'importpreset';
 
-    public function render() {
-
+    public function render()
+    {
         return $this->makePartial('importpreset');
-
     }
-
 
     public function onImportPreset()
     {
-
         /**
-         * Get post data
+         * Get post data.
          */
-
         $file = null;
 
-        if(post('media_file_name')) {
-
-            $file = storage_path('app/media' . post('media_file_name'));
-
-        } elseif(post('path_file_name')) {
-
+        if (post('media_file_name')) {
+            $file = storage_path('app/media'.post('media_file_name'));
+        } elseif (post('path_file_name')) {
             $file = base_path(post('path_file_name'));
-
         } else {
-
             $file = base_path(e(trans('webbook.gdpr::lang.formwidgets.importpreset.file_name_default')));
-
         }
 
-        /**
+        /*
          * No file provided
          */
-        if(empty($file)) {
+        if (empty($file)) {
+            \Log::error('SG: Preset file was not found!');
+            \Flash::error(trans('webbook.gdpr::lang.formwidgets.importpreset.flash.file_missing_error'));
 
-            Log::error('SG: Preset file was not found!');
-            Flash::error(trans('webbook.gdpr::lang.formwidgets.importpreset.flash.file_missing_error'));
-
-            throw new AjaxException([
-                'X_OCTOBER_ERROR_MESSAGE' => trans('webbook.gdpr::lang.formwidgets.importpreset.flash.file_missing_error'),
-            ]);
-
+            throw new \AjaxException(['X_OCTOBER_ERROR_MESSAGE' => trans('webbook.gdpr::lang.formwidgets.importpreset.flash.file_missing_error')]);
         }
 
-        /**
+        /*
          * File not exist!
          */
-        if (!file_exists($file)) {
+        if (! file_exists($file)) {
+            \Log::error('SG: Preset file was not found!');
 
-            Log::error('SG: Preset file was not found!');
-
-            throw new AjaxException([
-                'X_OCTOBER_ERROR_MESSAGE' => trans('webbook.gdpr::lang.formwidgets.importpreset.flash.file_error'),
-            ]);
+            throw new \AjaxException(['X_OCTOBER_ERROR_MESSAGE' => trans('webbook.gdpr::lang.formwidgets.importpreset.flash.file_error')]);
         }
 
-
         /**
-         * Try to parse import file
+         * Try to parse import file.
          */
-
-         $content = null;
+        $content = null;
 
         try {
-
             $content = (new Yaml())->parseFile($file);
-
         } catch (\Exception $e) {
+            \Log::error('SG: Error parsing config file! '.$e->getMessage());
 
-            Log::error('SG: Error parsing config file! ' . $e->getMessage());
-
-            throw new AjaxException([
-                'X_OCTOBER_ERROR_MESSAGE' => trans('webbook.gdpr::lang.formwidgets.importpreset.flash.parse_error'),
-            ]);
+            throw new \AjaxException(['X_OCTOBER_ERROR_MESSAGE' => trans('webbook.gdpr::lang.formwidgets.importpreset.flash.parse_error')]);
         }
 
-        /**
+        /*
          * Try to fill Settings model
          */
         try {
-
             CookiesSettings::set($content);
-
         } catch (\Exception $e) {
+            \Log::error('SG: Error importing data! '.$e->getMessage());
 
-            Log::error('SG: Error importing data! ' . $e->getMessage());
-
-            throw new AjaxException([
-                'X_OCTOBER_ERROR_MESSAGE' => trans('webbook.gdpr::lang.formwidgets.importpreset.flash.import_error'),
-            ]);
+            throw new \AjaxException(['X_OCTOBER_ERROR_MESSAGE' => trans('webbook.gdpr::lang.formwidgets.importpreset.flash.import_error')]);
         }
 
-        Log::info('SG: Data successfully imported!');
-        Flash::success(trans('webbook.gdpr::lang.formwidgets.importpreset.flash.import_successfull'));
-
+        \Log::info('SG: Data successfully imported!');
+        \Flash::success(trans('webbook.gdpr::lang.formwidgets.importpreset.flash.import_successfull'));
     }
 }

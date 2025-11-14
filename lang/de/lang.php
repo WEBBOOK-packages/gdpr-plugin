@@ -1,7 +1,8 @@
 <?php
 
-return [
+declare(strict_types=1);
 
+return [
     'plugin' => [
         'name' => 'GDPR',
         'description' => 'Toolbox for GDPR',
@@ -13,7 +14,6 @@ return [
     ],
 
     'settings' => [
-
         'cookies' => [
             'name' => 'Cookies',
             'description' => 'Alles über Cookies',
@@ -72,9 +72,9 @@ return [
             'scripts_code' => 'Benutzerdefinierter JS-Code',
             'scripts_code_description' => 'Dieser Code wird eingefügt, wenn der Benutzer eine Gruppe benötigt oder zulässt. Bitte verwenden Sie "<script> </ script>" -Tags für JS-Code.',
             'scripts_file' => 'Führen Sie die JS-Datei aus',
-            'scripts_file_description' => "Führen Sie diese Datei aus.",
+            'scripts_file_description' => 'Führen Sie diese Datei aus.',
             'scripts_run_production' => 'Nur in Produktion laufen lassen',
-            'scripts_run_production_description' => "Führen Sie JS-Code und -Dateien nur in der Produktionsumgebung aus.",
+            'scripts_run_production_description' => 'Führen Sie JS-Code und -Dateien nur in der Produktionsumgebung aus.',
             'scripts_disable' => 'Deaktivieren',
             'scripts_disable_description' => 'Führen Sie diese Skripte nicht aus.',
             'scripts_run_pages' => 'Nur auf bestimmten Seiten ausführen',
@@ -95,7 +95,6 @@ return [
     ],
 
     'components' => [
-
         'cookies_bar' => [
             'name' => 'Cookies Bar',
             'description' => 'Bar mit Informationen zur Verwendung von Cookies',
@@ -108,9 +107,7 @@ return [
     ],
 
     'formwidgets' => [
-
         'importpreset' => [
-
             'file_name' => 'Oder geben Sie Ihren Importdateipfad manuell ein.',
             'file_name_comment' => 'Vollständiger Pfad zur Datei.',
             'file_name_default' => '/plugins/webbook/gdpr/assets/presets/cookiesbar.en.yaml',
@@ -126,7 +123,6 @@ return [
         ],
 
         'exportpreset' => [
-
             'file_name' => 'Pfad zur Datei',
             'file_name_comment' => 'Vollständiger Pfad zur exportierten Datei.',
             'file_name_default' => '/storage/app/media/gdpr-export.yaml',

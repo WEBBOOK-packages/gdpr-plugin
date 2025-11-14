@@ -1,31 +1,26 @@
 <?php
 
+declare(strict_types=1);
+
 namespace WebBook\GDPR\Updates;
 
-use WebBook\GDPR\Models\CookiesSettings;
 use October\Rain\Database\Updates\Migration;
-use Config;
-use Flash;
-use Log;
-use AjaxException;
+use WebBook\GDPR\Models\CookiesSettings;
 
 class v14_migration extends Migration
 {
-    public function up() {
-
+    public function up()
+    {
         $settings = CookiesSettings::instance();
         $groups = $settings->get('cookies');
 
-        if(!is_array($groups)) {
+        if (! is_array($groups)) {
             return;
         }
 
         try {
-
             foreach ($groups as $key => $values) {
-
                 $values['scripts'] = [
-
                     0 => [
                         'scripts_file' => (empty($values['scripts_file']) ? null : $values['scripts_file']),
                         'scripts_code' => (empty($values['scripts_code']) ? null : $values['scripts_code']),
@@ -40,22 +35,16 @@ class v14_migration extends Migration
 
             $settings->save();
 
-            Log::error('SG: Successfull data migration to v1.4.0.');
+            \Log::error('SG: Successfull data migration to v1.4.0.');
+        } catch (\Exception $e) {
+            \Log::error('SG: Error running plugin migration! '.$e->getMessage());
 
-        } catch(\Exception $e) {
-            Log::error('SG: Error running plugin migration! ' . $e->getMessage());
-
-            throw new AjaxException([
-                'X_OCTOBER_ERROR_MESSAGE' => 'Error running migration. Please check your scripts in Cookies groups!'
-            ]);
-
+            throw new \AjaxException(['X_OCTOBER_ERROR_MESSAGE' => 'Error running migration. Please check your scripts in Cookies groups!']);
         }
-
     }
 
-    public function down() {
-
+    public function down()
+    {
         // Will not reverse
-
     }
 }

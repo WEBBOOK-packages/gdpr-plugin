@@ -1,7 +1,8 @@
 <?php
 
-return [
+declare(strict_types=1);
 
+return [
     'plugin' => [
         'name' => 'GDPR',
         'description' => 'Toolbox for GDPR',
@@ -13,7 +14,6 @@ return [
     ],
 
     'settings' => [
-
         'cookies' => [
             'name' => 'Cookies',
             'description' => 'Все о cookies',
@@ -72,9 +72,9 @@ return [
             'scripts_code' => 'Пользовательский JS код',
             'scripts_code_description' => 'Этот код вставляется, когда пользователь требует или разрешает группу. Пожалуйста, используйте теги «<script> </ script>» для JS кода.',
             'scripts_file' => 'Запустите JS файл',
-            'scripts_file_description' => "Запустите этот файл.",
+            'scripts_file_description' => 'Запустите этот файл.',
             'scripts_run_production' => 'Только в производстве',
-            'scripts_run_production_description' => "Запускайте только JS-код и файлы в продакшене.",
+            'scripts_run_production_description' => 'Запускайте только JS-код и файлы в продакшене.',
             'scripts_disable' => 'Деактивировать',
             'scripts_disable_description' => 'Этот код не запускать.',
             'scripts_run_pages' => 'Запускать только на определенных страницах',
@@ -95,7 +95,6 @@ return [
     ],
 
     'components' => [
-
         'cookies_bar' => [
             'name' => 'Cookies Панель',
             'description' => 'Панель с информацией об использовании cookie',
@@ -108,9 +107,7 @@ return [
     ],
 
     'formwidgets' => [
-
         'importpreset' => [
-
             'file_name' => 'Или введите путь к файлу импорта вручную.',
             'file_name_comment' => 'Полный путь к файлу.',
             'file_name_default' => '/plugins/webbook/gdpr/assets/presets/cookiesbar.en.yaml',
@@ -126,7 +123,6 @@ return [
         ],
 
         'exportpreset' => [
-
             'file_name' => 'Путь к файлу',
             'file_name_comment' => 'Полный путь к экспортированному файлу.',
             'file_name_default' => '/storage/app/media/gdpr-export.yaml',
