@@ -167,3 +167,5 @@
     - Init plugin for WebBook author
 2.0.2:
     - Refactor ImportPreset with code cleanup, strict typing, and streamlined file handling
+2.0.3:
+    - Replace jQuery with vanilla JavaScript
