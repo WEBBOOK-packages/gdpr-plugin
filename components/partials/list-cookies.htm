@@ -4,7 +4,7 @@
 
 <script>
 
-    $('#cookies-manage-save{{ customId|default('custom') }}').click(function() {
+    document.getElementById('cookies-manage-save{{ customId|default('custom') }}').addEventListener('click', function() {
 
         {% partial '@set-cookies' setOnlyManageCookies = true %}
 
@@ -14,14 +14,14 @@
 
         {% else %}
 
-            if( $('#cookies-bar').length )
+            if( document.getElementById('cookiesbar') )
             {
-                $('#cookies-bar').hide();
+                document.getElementById('cookiesbar').style.display = 'none';
             }
 
-            if( $('#sg-settings-modal-{{ __SELF__ }}').length )
+            if( document.getElementById('sg-settings-modal-{{ __SELF__ }}') )
             {
-                $('#sg-settings-modal-{{ __SELF__ }}').modal('hide');
+                document.getElementById('sg-settings-modal-{{ __SELF__ }}').style.display = 'none';
             }
 
         {% endif %}

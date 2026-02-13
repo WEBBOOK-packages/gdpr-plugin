@@ -8,7 +8,7 @@
 
     <script>
 
-        $('#cookies-manage-save').click(function() {
+        document.getElementById('cookies-manage-save').addEventListener('click', function() {
         
             {% partial '@set-cookies' setOnlyManageCookies = true %}
 

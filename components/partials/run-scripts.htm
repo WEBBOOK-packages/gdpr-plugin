@@ -32,8 +32,8 @@
                 {% if scriptRunThisPage %}
 
                     {# Test for production mode required first #}
-                    {% if script.scripts_run_production == false 
-                        or ( script.scripts_run_production == true and this.environment == 'production') %}
+                    {# {% if script.scripts_run_production == false 
+                        or ( script.scripts_run_production == true and this.environment == 'production') %} #}
 
                         {% if cookie.required or sgCookies[cookie.slug] %}
 
@@ -59,7 +59,7 @@
 
                         {% endif %}
 
-                    {% endif %}
+                    {# {% endif %} #}
 
                 {% endif %}
 

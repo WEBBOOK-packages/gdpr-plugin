@@ -72,6 +72,16 @@
 
     <script>
 
+        function checkCookie(cookieName) {
+            return document.cookie.split(';').some((cookie) => {
+                return cookie.trim().startsWith(cookieName + '=');
+            });
+        }
+
+        if (! checkCookie('sg-cookies-consent')) {
+            document.getElementById('sg-{{ __SELF__ }}').style.display = '';
+        }
+
         document.querySelector('#cookies-bar .btn-accept-all').addEventListener('click', function(e) {
             e.preventDefault();
 
