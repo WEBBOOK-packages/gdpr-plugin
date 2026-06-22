@@ -42,7 +42,9 @@ class CookiesSettings extends \Model
 
         $sgCookies = [];
 
-        $sgCookies['consent'] = ! empty($_COOKIE[$sgCookiesPrefix.'-state']);
+        $hasConsentState = array_key_exists($sgCookiesPrefix.'-state', $_COOKIE);
+
+        $sgCookies['consent'] = $hasConsentState;
 
         foreach (CookiesSettings::get('cookies', []) as $cookie) {
             // REQUIRED are always ON
@@ -52,7 +54,7 @@ class CookiesSettings extends \Model
             }
 
             // DEFAULT ENABLED cookies are ON only when no general consent or when explicitly allowed
-            if (! empty($cookie['default_enabled']) and empty($_COOKIE[$sgCookiesPrefix.'-state'])) {
+            if (! empty($cookie['default_enabled']) and ! $hasConsentState) {
                 $sgCookies[$cookie['slug']] = 1;
                 continue;
             }

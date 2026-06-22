@@ -169,3 +169,5 @@
     - Refactor ImportPreset with code cleanup, strict typing, and streamlined file handling
 2.0.3:
     - Replace jQuery with vanilla JavaScript
+2.0.5:
+    - Refactor CookiesSettings consent handling with clearer variable usage and optimized checks
