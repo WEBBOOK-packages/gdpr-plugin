@@ -1,6 +1,6 @@
 <div id="sg-{{ __SELF__ }}" style="display: none;">
     {% set show = true %}
-    {% if sgCookies.consent is defined and sgCookies.consent is not empty %}
+    {% if sgCookies.consent|default(false) %}
         {% set show = false %}
     {% elseif viewBag is defined and viewBag.property('hideCookiesBar', false) == true %}
         {% set show = false %}
